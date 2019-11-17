@@ -2,7 +2,7 @@ public class LinkedList {
     //node class
     class Node {
         //class constructor
-        Node() {
+        public Node() {
             value = 0;
             next = null;
             prev = null;
@@ -14,7 +14,7 @@ public class LinkedList {
     }
 
     //class constructor
-    LinkedList() {
+    public LinkedList() {
         head = null;
         tail = null;
         size = 0;
@@ -76,5 +76,58 @@ public class LinkedList {
         }
 
         size++;
+    }
+
+    private void deleteHead(){
+        head = head.next;
+        head.prev = null;
+    }
+
+    private void deleteTail() {
+        tail = tail.prev;
+        tail.next = null;
+    }
+
+    public boolean delete(int target) {
+        Node current = new Node();
+        Node prev = new Node();
+        boolean result = false;
+        boolean found = false;
+
+        current = head;
+
+        //traverse through list until node is found
+        while(current!=null && current.value!=target){
+            prev = current;
+            current = current.next;
+        }
+
+        //set flags for found
+        if(current == null){
+            found = false;
+        } else if(current!=null && current.value == target){
+            found = true;
+        }
+
+        //if found is false, do not delete
+        //otherwise, delete a node
+        if(found == false){
+            result = false;
+        } else{
+            if(current == head){
+                deleteHead();
+            } else if(current == tail) {
+                deleteTail();
+            } else {
+                prev.next = current.next;
+                current.next.prev = prev;
+                size--;
+            }
+
+            result = true;
+        }
+
+        //return the result of deletion
+        return result;
     }
 }
